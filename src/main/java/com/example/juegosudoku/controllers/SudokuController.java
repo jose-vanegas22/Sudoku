@@ -1,4 +1,4 @@
-package com.example.juegosudoku.controlls;
+package com.example.juegosudoku.controllers;
 
 import com.example.juegosudoku.models.Jugador;
 import javafx.fxml.FXML;
@@ -7,6 +7,17 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 
+
+/**
+ * Controller for the sudoku.fxml
+ * This class handles(maneja) the interaction between(entre) the user and inteface
+ * the variable SizeSudoku is the size of the grid, the variable SizeCeldas is the size of the cells in the grid
+ * the variable celdas is the matrix of the grid
+ *
+ * @author vaneg
+ * @author Alejandro Medina
+ * @version 1.0
+ */
 public class SudokuController {
 
     private static final int SizeSudoku = 6; //Aqui defino el tamaño del sudoku 6x6
@@ -23,10 +34,19 @@ public class SudokuController {
     @FXML
     private Label nombreLabel;
 
-    private Jugador jugador;
+    private Jugador jugador; //Se crea una instancia de la clase Jugador para poder usar el nombre
 
 
+    /**
+     * This metod runs when the interface open and shows a image
+     * There are two nested(anidados) for, they go through(a traves de) the matrix, both(tanto) its columns and rows
+     * Created a TextField in each(cada) cell and a style is applied according(segun) the case
+     *
+     */
     public void initialize(){
+
+        String imagePath = getClass().getResource("/com/example/juegosudoku/Imagenes/imagenInicio.jpg").toExternalForm();
+        borderPane.setStyle("-fx-background-image: url('" + imagePath + "'); -fx-background-size: cover;");
 
         for (int filas = 0; filas < SizeSudoku; filas++) { //Este for recorre todas las filas
             for (int columnas = 0; columnas < SizeSudoku; columnas++) { //Este ford recorre las columnas, primero recorre todas las columnas
@@ -52,7 +72,7 @@ public class SudokuController {
                 }
 
                 celda.setStyle("-fx-font-size: 18px; -fx-alignment: center; -fx-border-color: black; " +
-                        "-fx-border-width: " + borderWidth + "; -fx-text-fill: black; -fx-background-color: #FFFACD;");//Se aplica el estilo de las celdas
+                        "-fx-border-width: " + borderWidth + "; -fx-text-fill: black; -fx-background-color: white;");//Se aplica el estilo de las celdas
 
                 celdas[columnas][filas] = celda; //Se guardan en la matriz
                 celdasSudoku.add(celda, columnas, filas); //Metodo predifinido del GridPane donde añadimos la celda que es un
@@ -63,10 +83,17 @@ public class SudokuController {
     }
 
 
+    /**
+     * This metod save a object of the Jugador and it allows(permite) to show it in the interface
+     * @param jugador
+     */
     public void setJugador(Jugador jugador) {
         this.jugador = jugador;
     }
 
+    /**
+     * This metod update name of the jugador in the label nombreLabel
+     */
     public void mostrarNombreLabel(){
         nombreLabel.setText(jugador.getNombre());
     }
