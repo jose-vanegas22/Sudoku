@@ -8,7 +8,6 @@ import java.io.IOException;
 
 public class Main extends Application {
 
-
     public void start(Stage primaryStage) throws IOException {
 
         IniciarSudokuView iniciarSudokuView = IniciarSudokuView.getInstance();

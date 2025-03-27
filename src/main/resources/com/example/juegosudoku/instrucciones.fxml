@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox fx:id="vBoxInstrucciones" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.juegosudoku.controllers.InstruccionesController">
+   <children>
+      <HBox alignment="CENTER" minHeight="50.0" prefHeight="100.0" prefWidth="600.0" style="-fx-border-color: black; -fx-border-width: 2px;" VBox.vgrow="NEVER">
+         <children>
+            <Label style="-fx-background-color: #ADD8E6; -fx-background-radius: 10px; -fx-border-radius: 10px; -fx-border-color: black; -fx-border-width: 3px;" text="INSTRUCCIONES">
+               <font>
+                  <Font name="Arial Black" size="15.0" />
+               </font>
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </padding>
+            </Label>
+         </children>
+      </HBox>
+      <HBox prefHeight="100.0" prefWidth="200.0" style="-fx-border-color: black; -fx-border-width: 2px;" VBox.vgrow="ALWAYS">
+         <children>
+            <TextArea editable="false" prefHeight="405.0" prefWidth="600.0" text="El Sudoku 6x6 es un juego de lógica que consiste en completar una cuadrícula con &#10;números sin repetir, siguiendo ciertas reglas.&#10;&#10;REGLAS DEL JUEGO&#10;&#10;1. Estructura del tablero:&#10;- El tablero tiene 6 filas y 6 columnas (una cuadrícula de 6x6).&#10;- Está dividido en bloques de 2x3 (2 filas por 3 columnas).&#10;&#10;2. Objetivo:&#10;- Completar todas las casillas vacías con números del 1 al 6.&#10;- No se pueden repetir números en una misma fila, columna o bloque 2x3.&#10;&#10;3. Cómo jugar:&#10;- Observa el tablero inicial, donde algunas casillas ya tienen números prellenados.&#10;- Encuentra una casilla vacía y analiza qué números pueden ir en ella.&#10;- Escribe un número del 1 al 6, asegurándote de que no se repita en la misma fila,&#10;   columna o bloque.&#10;- Cuentas con un boton de ayuda el cual te hara mas facil el camino.&#10;Si te equivocas, puedes corregir el número.&#10;Continúa hasta completar el tablero respetando todas las reglas.&#10;&#10;4. Consejos útiles:&#10;- Comienza por las filas, columnas o bloques que ya tienen más números colocados.&#10;- Usa la lógica para deducir los valores en lugar de adivinar.&#10;- Si te atascas, revisa nuevamente los números en cada fila, columna y bloque.&#10;&#10;¡Diviértete resolviendo el Sudoku 6x6 y pon a prueba tu habilidad lógica!" HBox.hgrow="ALWAYS">
+               <HBox.margin>
+                  <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
+               </HBox.margin>
+               <font>
+                  <Font name="Arial" size="13.0" />
+               </font>
+            </TextArea>
+         </children>
+      </HBox>
+   </children>
+</VBox>

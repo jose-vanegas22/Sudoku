@@ -1,6 +1,7 @@
 package com.example.juegosudoku.controllers;
 
 import com.example.juegosudoku.models.Jugador;
+import com.example.juegosudoku.views.InstruccionesView;
 import com.example.juegosudoku.views.SudokuView;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -39,14 +40,36 @@ public class IniciarSudokuController {
     @FXML
     void onActionIniciarBoton(ActionEvent actionEvent) throws IOException {
 
-        String nombre = nombreTextField.getText();
+        String nombre = nombreTextField.getText().trim(); //El trim() se usa para eliminar espacios antes y despues
+        nombreTextField.setText("");
+
+        if (nombre.isEmpty()) {
+            errorNombreLabel.setText("El nombre es obligatorio.");
+            return;
+        }
+        errorNombreLabel.setText(""); //Limpia el label del mensaje de error cuando ingresa correctamente un nombre
+
         Jugador jugador = new Jugador();
         jugador.setNombre(nombre);
+
 
         SudokuView sudokuView = SudokuView.getInstance(); //Se crea una instancia, es la clase la cual se encarga de mostrar la ventana
         sudokuView.show();
         sudokuView.getController().setJugador(jugador); //Permite pasar el nombre del jugador ingresado en esta clase a SudokuController
         sudokuView.getController().mostrarNombreLabel(); //Llama a un metodo de SudokuController que permite mostrar el nombre en la otra interfaz
+    }
+
+
+    /**
+     * onActionInstruccionesBoton handles the action when you press Instrucciones
+     * Created an instance of the class InstruccionesView and showed it
+     * @param actionEvent
+     * @throws IOException
+     */
+    @FXML
+    void onActionInstruccionesBoton(ActionEvent actionEvent) throws IOException {
+        InstruccionesView instruccionesView = InstruccionesView.getInstance();
+        instruccionesView.show();
     }
 
     /**
