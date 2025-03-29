@@ -1,6 +1,7 @@
 package com.example.juegosudoku.controllers;
 
 import com.example.juegosudoku.models.Jugador;
+import com.example.juegosudoku.models.ReglasSudoku;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -36,6 +37,8 @@ public class SudokuController {
 
     private Jugador jugador; //Se crea una instancia de la clase Jugador para poder usar el nombre
 
+    ReglasSudoku reglas = new ReglasSudoku(); //Instancio la clase para poder usarla aqui
+
 
     /**
      * This metod runs when the interface open and shows a image
@@ -53,6 +56,18 @@ public class SudokuController {
                                                                         //de una fila y luego pasa a la siguiente fila
                 TextField celda = new TextField(); //Cada que pasa por aqui crea una celda
                 celda.setPrefSize(SizeCeldas, SizeCeldas); //Le da tamaño a la celda 50px x 50px
+
+                //------------------------------------------------------------------------------------------------------
+                //Solo permite ingresar numero del 1 al 6 de lo contrario los borra automaticamente,
+                // textProperty () metodo de TextField detecta un cambio y hace algo en respuesta, addListener funciona
+                //como sensor cuando se cambia algo ejecuta codigo, obs permite saber que se esta cambiando
+                celda.textProperty().addListener((obs, oldValue, newValue) -> {
+                    if (!reglas.validarNumero(newValue)) { //Si es valido no entra (!true se vuelve false)
+                        celda.setText(oldValue); // Si no es válido, vuelve al valor anterior o sea vacio
+                    }
+                });
+                //------------------------------------------------------------------------------------------------------
+
                 String borderWidth = "1px"; // Borde base, por defecto todos tendran un tamaño de 1 px sino se cumplen unas condiciones
 
                 if ((columnas + 1) % 3 == 0 && columnas != SizeSudoku - 1) {
