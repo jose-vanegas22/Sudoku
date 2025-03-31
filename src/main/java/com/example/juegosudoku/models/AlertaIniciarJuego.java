@@ -8,7 +8,7 @@ import java.util.Optional;
 /**
  * This class implements AlertaIniciarJuegoInterface
  */
-public class AlertaIniciarJuego implements AlertaIniciarJuegoInterface {
+public class AlertaIniciarJuego implements AlertaInterface {
 
     @Override
     public void mostrarAlerta(String tittle, String header, String content) {
