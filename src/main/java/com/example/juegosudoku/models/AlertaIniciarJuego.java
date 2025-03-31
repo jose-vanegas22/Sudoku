@@ -6,7 +6,7 @@ import javafx.scene.control.ButtonType;
 import java.util.Optional;
 
 /**
- * This class implements AlertaIniciarJuegoInterface
+ * This class implements AlertaInterface
  */
 public class AlertaIniciarJuego implements AlertaInterface {
 
