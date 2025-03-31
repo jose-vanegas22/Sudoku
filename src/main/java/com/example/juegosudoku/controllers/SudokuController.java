@@ -35,6 +35,12 @@ public class SudokuController {
     @FXML
     private Label nombreLabel;
 
+    @FXML
+    private Label mensajeValorLabel;
+
+    @FXML
+    private Label mensajeIncorrectoLabel;
+
     private Jugador jugador; //Se crea una instancia de la clase Jugador para poder usar el nombre
 
     ReglasSudoku reglas = new ReglasSudoku(); //Instancio la clase para poder usarla aqui
@@ -62,8 +68,25 @@ public class SudokuController {
                 // textProperty () metodo de TextField detecta un cambio y hace algo en respuesta, addListener funciona
                 //como sensor cuando se cambia algo ejecuta codigo, obs permite saber que se esta cambiando
                 celda.textProperty().addListener((obs, oldValue, newValue) -> {
+
                     if (!reglas.validarNumero(newValue)) { //Si es valido no entra (!true se vuelve false)
                         celda.setText(oldValue); // Si no es válido, vuelve al valor anterior o sea vacio
+                    }
+
+                    //Se hace validacion de no repetir numeros en filas, columnas y cuadrantes
+                    if (!newValue.isEmpty()) { //Solo si se ingreso un nuevo valor (newValue)
+                        int [][] sudoku = convertirCeldasStringANumericas(); //Se crea matriz y se guarda el resultado de covertir datos String a enteros
+                        int filaActual = GridPane.getRowIndex(celda); //Guarda el indice de la fila en donde el usuario quiere colocar el numero, en donde señana y da click con el raton
+                        int columnaActual = GridPane.getColumnIndex(celda); //Guarda el indice de la columna en donde el usuario quiere color el numero, en donde señala y da click con el raton
+                        int numero = Integer.parseInt(newValue); //Convierte ese nuevo valor ingresado de String a int y lo guada en la variable numero
+
+                        if (!reglas.numeroValido(sudoku, filaActual, columnaActual, numero)) { //Si no se cumplen las condiciones de numeroValido muestra unos mensajes
+                            mensajeValorLabel.setText("Valor");
+                            mensajeIncorrectoLabel.setText("Incorrecto");
+                        } else { //De lo contrario cuando si se cumplen borra los mensajes
+                            mensajeValorLabel.setText(" ");
+                            mensajeIncorrectoLabel.setText(" ");
+                        }
                     }
                 });
                 //------------------------------------------------------------------------------------------------------
@@ -89,7 +112,7 @@ public class SudokuController {
                 celda.setStyle("-fx-font-size: 18px; -fx-alignment: center; -fx-border-color: black; " +
                         "-fx-border-width: " + borderWidth + "; -fx-text-fill: black; -fx-background-color: white;");//Se aplica el estilo de las celdas
 
-                celdas[columnas][filas] = celda; //Se guardan en la matriz
+                celdas[filas][columnas] = celda; //Se guardan en la matriz
                 celdasSudoku.add(celda, columnas, filas); //Metodo predifinido del GridPane donde añadimos la celda que es un
                                                           //TextField por cada cuadro, añadimos la columna y la fina, cuando pase
                                                           //por aqui la primera vez añade un TextField en 0, 0
@@ -97,12 +120,35 @@ public class SudokuController {
         }
     }
 
+    /**
+     *This method converts the values inside a matrix of String to int values
+     * @return
+     */
+    private int[][] convertirCeldasStringANumericas(){
+
+        int [][] sudoku = new int[SizeSudoku][SizeSudoku]; //Se crea la matriz numerica de tamaño 6x6 y se llama sudoku
+
+        for (int filas = 0; filas < SizeSudoku; filas++) {
+            for (int columnas = 0; columnas < SizeSudoku; columnas++){
+                String texto = celdas[filas][columnas].getText(); //Se obtiene el texto del TextField segun la fila y columna en la que este, se guarda en la variable texto
+
+                if (texto.isEmpty()){
+                    sudoku[filas][columnas] = 0; //Si esta vacio pone 0
+                } else {
+                    sudoku[filas][columnas] = Integer.parseInt(texto); //De lo contrario convierte el texto en entero y lo pone en es posicion
+                }
+            }
+        }
+        return sudoku; //Al final retorna la matriz bidimencional sudoku
+    }
+
 
     /**
-     * This metod save a object of the Jugador and it allows(permite) to show it in the interface
+     * This metod save an object of the Jugador and it allows(permite) to show it in the interface
      * @param jugador
      */
     public void setJugador(Jugador jugador) {
+
         this.jugador = jugador;
     }
 
@@ -110,6 +156,7 @@ public class SudokuController {
      * This metod update name of the jugador in the label nombreLabel
      */
     public void mostrarNombreLabel(){
+
         nombreLabel.setText(jugador.getNombre());
     }
 

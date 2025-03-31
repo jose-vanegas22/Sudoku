@@ -24,6 +24,19 @@
                   </Button>
                </children>
             </VBox>
+            <Label fx:id="mensajeValorLabel" style="-fx-background-color: white;">
+               <VBox.margin>
+                  <Insets top="20.0" />
+               </VBox.margin>
+               <font>
+                  <Font name="Arial Black" size="15.0" />
+               </font>
+            </Label>
+            <Label fx:id="mensajeIncorrectoLabel" style="-fx-background-color: white;">
+               <font>
+                  <Font name="Arial Black" size="15.0" />
+               </font>
+            </Label>
          </children>
       </VBox>
    </right>
