@@ -1,11 +1,11 @@
 package com.example.juegosudoku.models;
 
-public class GenerateBoard {
+public class Board {
     private int[][] board;
     private static final int boardLength=6;
     private static final int boardWidth=6;
 
-    public GenerateBoard() {
+    public Board() {
         board=new int[boardLength][boardWidth];
     }
 

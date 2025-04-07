@@ -2,7 +2,10 @@ package com.example.juegosudoku.controllers;
 
 import com.example.juegosudoku.models.Jugador;
 import com.example.juegosudoku.models.ReglasSudoku;
+import com.example.juegosudoku.models.RetryAlert;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
@@ -40,6 +43,9 @@ public class SudokuController {
 
     @FXML
     private Label mensajeIncorrectoLabel;
+
+    @FXML
+    private Button playAgainButton;
 
     private Jugador jugador; //Se crea una instancia de la clase Jugador para poder usar el nombre
 
@@ -158,6 +164,16 @@ public class SudokuController {
     public void mostrarNombreLabel(){
 
         nombreLabel.setText(jugador.getNombre());
+    }
+
+    @FXML
+    void onActionPlayAgainButton(ActionEvent event) {
+        RetryAlert alert = new RetryAlert();
+
+        boolean confirmation = alert.mostrarAlertaDeConfirmacion("Alerta de reiniciar juego", "Esta es una ventana de alerta", "Deseas iniciar otro tablero?");
+        if (confirmation){
+
+        }
     }
 
 

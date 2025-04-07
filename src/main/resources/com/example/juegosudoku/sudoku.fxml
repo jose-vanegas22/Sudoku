@@ -58,7 +58,7 @@
             </HBox>
             <AnchorPane prefHeight="73.0" prefWidth="90.0" style="-fx-background-color: #EDEDED; -fx-border-width: 4; visibility: true; -fx-border-color: #A0A0A0;">
                <children>
-                  <Button layoutX="10.0" layoutY="21.0" mnemonicParsing="false" text="Volver a jugar" />
+                  <Button fx:id="playAgainButton" layoutX="10.0" layoutY="21.0" mnemonicParsing="false" onAction="#onActionPlayAgainButton" text="Volver a jugar" />
                </children>
             </AnchorPane>
          </children>
