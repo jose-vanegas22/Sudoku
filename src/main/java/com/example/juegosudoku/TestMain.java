@@ -23,10 +23,23 @@ public class TestMain extends Application {
         Button button = new Button("Test board gen");
         button.setOnAction(e -> {
             Board board = new Board();
-            board.generateNumber(6);
+            board.generateNumber(12);
+        });
+        Button button2 = new Button("Test board gen 2");
+        button2.setOnAction(e -> {
+            Board board = new Board();
+            board.generateNumberPerSection();
+            board.printBoard();
+            board.solve();
+            if (board.solve()){
+                System.out.println("Board solved");
+            }
+            else{
+                System.out.println("Board not solved");
+            }
         });
         VBox root = new VBox();
-        root.getChildren().addAll(title, button);
+        root.getChildren().addAll(title, button, button2);
         testStage.setResizable(false);
 
         Scene scene = new Scene(root);
