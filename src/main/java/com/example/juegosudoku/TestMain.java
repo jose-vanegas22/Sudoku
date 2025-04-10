@@ -1,6 +1,7 @@
 package com.example.juegosudoku;
 
 import com.example.juegosudoku.models.Board;
+import com.example.juegosudoku.models.BoardSolver;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -22,21 +23,24 @@ public class TestMain extends Application {
         Label title = new Label("Test");
         Button button = new Button("Test board gen");
         button.setOnAction(e -> {
-            Board board = new Board();
-            board.generateNumber(12);
+            Board tablero = new Board();
+            tablero.generateNumber(12);
         });
         Button button2 = new Button("Test board gen 2");
         button2.setOnAction(e -> {
-            Board board = new Board();
-            board.generateNumberPerSection();
-            board.printBoard();
-            board.solve();
-            if (board.solve()){
-                System.out.println("Board solved");
-            }
-            else{
-                System.out.println("Board not solved");
-            }
+            Board tablero = new Board();
+//            board.generateNumberPerSection();
+//            board.printBoard();
+            BoardSolver solver = new BoardSolver(tablero.getBoard());
+            aaaa(tablero, solver);
+//            if (solver.solve()){
+//                System.out.println("Board solved");
+//            }
+//            else{
+//                System.out.println("Board not solved");
+//            }
+//            solver.printBoard();
+
         });
         VBox root = new VBox();
         root.getChildren().addAll(title, button, button2);
@@ -46,5 +50,20 @@ public class TestMain extends Application {
         testStage.setScene(scene);
         testStage.show();
 
+    }
+
+    public void aaaa(Board board, BoardSolver solver) {
+        board.generateNumberPerSection();
+        solver.setBoard(board.getBoard());
+        board.printBoard();
+        System.out.println();
+        if(solver.solve()){
+            solver.printBoard();
+            board.printBoard();
+            System.out.println("Solved");
+        }
+        else{
+            aaaa(board, solver);
+        }
     }
 }
