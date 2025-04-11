@@ -76,5 +76,9 @@ public class Board {
         return board;
     }
 
+    public int getBoardValue(int row, int column) {
+        return board[row][column];
+    }
+
 
 }

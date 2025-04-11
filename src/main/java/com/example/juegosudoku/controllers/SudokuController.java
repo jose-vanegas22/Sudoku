@@ -49,6 +49,8 @@ public class SudokuController {
 
     ReglasSudoku reglas = new ReglasSudoku(); //Instancio la clase para poder usarla aqui
 
+    Board board = new Board();
+    BoardSolver solver = new BoardSolver();
 
     /**
      * This metod runs when the interface open and shows a image
@@ -58,8 +60,6 @@ public class SudokuController {
      */
     public void initialize(){
 
-        Board board = new Board();
-        BoardSolver solver = new BoardSolver();
         String imagePath = getClass().getResource("/com/example/juegosudoku/Imagenes/imagenInicio.jpg").toExternalForm();
         borderPane.setStyle("-fx-background-image: url('" + imagePath + "'); -fx-background-size: cover;");
 
@@ -70,6 +70,11 @@ public class SudokuController {
                                                                         //de una fila y luego pasa a la siguiente fila
                 TextField celda = new TextField(); //Cada que pasa por aqui crea una celda
                 celda.setPrefSize(SizeCeldas, SizeCeldas); //Le da tamaño a la celda 50px x 50px
+                int valorInicial = board.getBoardValue(filas, columnas);
+                if(valorInicial != 0){
+                    celda.setText(String.valueOf(valorInicial));
+                    celda.setDisable(true);
+                }
 
                 //------------------------------------------------------------------------------------------------------
                 //Solo permite ingresar numero del 1 al 6 de lo contrario los borra automaticamente,
@@ -174,6 +179,7 @@ public class SudokuController {
 
         boolean confirmation = alert.mostrarAlertaDeConfirmacion("Alerta de reiniciar juego", "Esta es una ventana de alerta", "Deseas iniciar otro tablero?");
         if (confirmation){
+            generateSudokuTable(board, solver);
 
         }
     }
