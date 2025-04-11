@@ -70,11 +70,6 @@ public class SudokuController {
                                                                         //de una fila y luego pasa a la siguiente fila
                 TextField celda = new TextField(); //Cada que pasa por aqui crea una celda
                 celda.setPrefSize(SizeCeldas, SizeCeldas); //Le da tamaño a la celda 50px x 50px
-                int valorInicial = board.getBoardValue(filas, columnas);
-                if(valorInicial != 0){
-                    celda.setText(String.valueOf(valorInicial));
-                    celda.setDisable(true);
-                }
 
                 //------------------------------------------------------------------------------------------------------
                 //Solo permite ingresar numero del 1 al 6 de lo contrario los borra automaticamente,
@@ -131,6 +126,16 @@ public class SudokuController {
                                                           //por aqui la primera vez añade un TextField en 0, 0
             }
         }
+
+//        for (int filas = 0; filas < SizeSudoku; filas++){
+//            for (int columnas = 0; columnas < SizeSudoku; columnas++){
+//                int valorInicial = board.getBoardValue(filas, columnas);
+//                if(valorInicial != 0){
+//                    celda.setText(String.valueOf(valorInicial));
+//                    celda.setDisable(true);
+//                }
+//            }
+//        }
     }
 
     /**
