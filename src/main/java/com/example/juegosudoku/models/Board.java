@@ -5,6 +5,12 @@ import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
 
+/**
+ * This class board generates a board suitable for sudoku 6x6
+ * @author vaneg
+ * @author Alejandro Medina García
+ * @version 1.1
+ */
 public class Board {
     private int[][] board;
     private static final int boardLength=6;
@@ -16,24 +22,9 @@ public class Board {
         System.out.println(Arrays.deepToString(board));
     }
 
-    public void generateNumber(int i) {
-        int fila = (int) (Math.random() * 6);
-        int columna = (int) (Math.random() * 6);
-        int number = (int) (Math.random() * 6) + 1;
-        if(i == 0)
-        {
-            System.out.println(Arrays.deepToString(board));
-        }
-//        else if (checkZeroCell(columna, fila) == true) {
-//            System.out.println("La casilla esta ocupada");
-//
-//        }
-        else {
-            board[columna][fila] = number;
-            generateNumber(i-1);
-        }
-    }
-
+    /**
+     * Function that generates numbers for a board, being specific to add only 2 numbers per Board section
+     */
     public void generateNumberPerSection(){
 
 
@@ -78,6 +69,10 @@ public class Board {
 
     public int getBoardValue(int row, int column) {
         return board[row][column];
+    }
+
+    public void setBoardValue(int row, int column, int value) {
+        board[row][column] = value;
     }
 
 

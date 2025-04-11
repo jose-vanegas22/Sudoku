@@ -196,17 +196,22 @@ public class SudokuController {
     }
 
 
+    /**
+     * Function to generate and check the suitability of a board for the game
+     * @param board: board to play on
+     * @param solver: board solved to check its suitability
+     */
     public void generateSudokuTable(Board board, BoardSolver solver){
         board.generateNumberPerSection();
         solver.cloneBoard(board.getBoard());
-        board.printBoard();
-        System.out.println();
+//        board.printBoard();
+//        System.out.println();
         if(solver.isInitialBoardValid()){
             if (solver.solve()) {
-                solver.printBoard();
-                System.out.println();
-                board.printBoard();
-                System.out.println();
+//                solver.printBoard();
+//                System.out.println();
+//                board.printBoard();
+//                System.out.println();
                 System.out.println("Solved");
             } else {
                 generateSudokuTable(board, solver);

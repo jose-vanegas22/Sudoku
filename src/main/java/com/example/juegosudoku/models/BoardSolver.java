@@ -1,5 +1,11 @@
 package com.example.juegosudoku.models;
 
+/**
+ * This class verify if a board generated is solvable for sudoku 6x6
+ * @author vaneg
+ * @author Alejandro Medina García
+ * @version 1.1
+ */
 public class BoardSolver {
     private int[][] solverBoard;
 
@@ -7,6 +13,10 @@ public class BoardSolver {
         solverBoard= new int[6][6];
     }
 
+    /**
+     * Function that checks if the board can be solved
+     * @return boolean value
+     */
     public boolean solve() {
         for (int fila = 0; fila < 6; fila++) {
             for (int col = 0; col < 6; col++) {
@@ -26,6 +36,13 @@ public class BoardSolver {
         return true; // se llenó todo el tablero
     }
 
+    /**
+     * This function checks if is valid to position the number there
+     * @param fila: row of the board
+     * @param col: column of the board
+     * @param num: value to insert
+     * @return boolean value
+     */
     private boolean isValid(int fila, int col, int num) {
         // Verificar fila
         for (int j = 0; j < 6; j++) {
@@ -50,6 +67,10 @@ public class BoardSolver {
         return true;
     }
 
+    /**
+     * This function checks if the initial Board doesn't have any initial problem
+     * @return boolean value
+     */
     public boolean isInitialBoardValid() {
         for (int fila = 0; fila < 6; fila++) {
             for (int col = 0; col < 6; col++) {
@@ -67,6 +88,10 @@ public class BoardSolver {
         return true;
     }
 
+    /**
+     * Function to create a copy or clone of a board
+     * @param board: int matrix
+     */
     public void cloneBoard(int[][] board){
         for (int i = 0; i<6; i++){
 
@@ -83,7 +108,11 @@ public class BoardSolver {
         }
     }
 
-    public void setSolverBoard(int[][] board) {
-        this.solverBoard = board;
+    public int[][] getSolverBoard() {
+        return solverBoard;
+    }
+
+    public int getBoardValue(int row, int col) {
+        return solverBoard[row][col];
     }
 }
