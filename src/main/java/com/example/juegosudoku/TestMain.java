@@ -6,7 +6,6 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -31,7 +30,7 @@ public class TestMain extends Application {
             Board tablero = new Board();
 //            board.generateNumberPerSection();
 //            board.printBoard();
-            BoardSolver solver = new BoardSolver(tablero.getBoard());
+            BoardSolver solver = new BoardSolver();
             aaaa(tablero, solver);
 //            if (solver.solve()){
 //                System.out.println("Board solved");
@@ -54,13 +53,19 @@ public class TestMain extends Application {
 
     public void aaaa(Board board, BoardSolver solver) {
         board.generateNumberPerSection();
-        solver.setBoard(board.getBoard());
+        solver.cloneBoard(board.getBoard());
         board.printBoard();
         System.out.println();
-        if(solver.solve()){
-            solver.printBoard();
-            board.printBoard();
-            System.out.println("Solved");
+        if(solver.isInitialBoardValid()){
+            if (solver.solve()) {
+                solver.printBoard();
+                System.out.println();
+                board.printBoard();
+                System.out.println();
+                System.out.println("Solved");
+            } else {
+                aaaa(board, solver);
+            }
         }
         else{
             aaaa(board, solver);

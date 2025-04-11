@@ -1,8 +1,6 @@
 package com.example.juegosudoku.controllers;
 
-import com.example.juegosudoku.models.Jugador;
-import com.example.juegosudoku.models.ReglasSudoku;
-import com.example.juegosudoku.models.RetryAlert;
+import com.example.juegosudoku.models.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -60,11 +58,15 @@ public class SudokuController {
      */
     public void initialize(){
 
+        Board board = new Board();
+        BoardSolver solver = new BoardSolver();
         String imagePath = getClass().getResource("/com/example/juegosudoku/Imagenes/imagenInicio.jpg").toExternalForm();
         borderPane.setStyle("-fx-background-image: url('" + imagePath + "'); -fx-background-size: cover;");
 
+        generateSudokuTable(board, solver);
+
         for (int filas = 0; filas < SizeSudoku; filas++) { //Este for recorre todas las filas
-            for (int columnas = 0; columnas < SizeSudoku; columnas++) { //Este ford recorre las columnas, primero recorre todas las columnas
+            for (int columnas = 0; columnas < SizeSudoku; columnas++) { //Este for recorre las columnas, primero recorre todas las columnas
                                                                         //de una fila y luego pasa a la siguiente fila
                 TextField celda = new TextField(); //Cada que pasa por aqui crea una celda
                 celda.setPrefSize(SizeCeldas, SizeCeldas); //Le da tamaño a la celda 50px x 50px
@@ -177,6 +179,31 @@ public class SudokuController {
     }
 
 
+    public void readSudokuTable(Board board) {
 
+
+    }
+
+
+    public void generateSudokuTable(Board board, BoardSolver solver){
+        board.generateNumberPerSection();
+        solver.cloneBoard(board.getBoard());
+        board.printBoard();
+        System.out.println();
+        if(solver.isInitialBoardValid()){
+            if (solver.solve()) {
+                solver.printBoard();
+                System.out.println();
+                board.printBoard();
+                System.out.println();
+                System.out.println("Solved");
+            } else {
+                generateSudokuTable(board, solver);
+            }
+        }
+        else{
+            generateSudokuTable(board, solver);
+        }
+    }
 
 }
