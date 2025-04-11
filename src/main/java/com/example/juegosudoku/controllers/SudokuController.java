@@ -9,9 +9,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 
-import java.util.HashSet;
-import java.util.Random;
-import java.util.Set;
+import java.util.*;
 
 
 /**
@@ -196,26 +194,28 @@ public class SudokuController {
     @FXML
     void onActionHelpButton(ActionEvent event) {
 
-        int[][] positions = new int[0][2];
+        List<int[]> positions = new ArrayList<>();
         int[][] boardEmpty = board.getBoard();
-        int counter = 0;
         for (int filas = 0; filas < boardEmpty.length; filas++) {
             for (int columnas = 0; columnas < boardEmpty[filas].length; columnas++) {
                 if (boardEmpty[filas][columnas] == 0){
-                    positions[counter][1] = filas;
-                    positions[counter][2] = columnas;
-                    counter++;
+                    positions.add(new int[]{filas, columnas});
                 }
             }
         }
 
-        Random rand  = new Random();
-        int positionHelpChooser = rand.nextInt(positions.length);
-        if (positions.length != 1){
-            int row = positions[positionHelpChooser][0];
-            int column = positions[positionHelpChooser][1];
+        if (!positions.isEmpty())
+        {
+            Random rand = new Random();
+            int positionHelpChooser[] = positions.get(rand.nextInt(positions.size()));
+            int row = positionHelpChooser[0];
+            int column = positionHelpChooser[1];
+
             int helpNumber = solver.getBoardValue(row, column);
             board.setBoardValue(row, column, helpNumber);
+
+            celdas[row][column].setText(String.valueOf(helpNumber));
+            celdas[row][column].setStyle("-fx-text-fill: #00008B;");
         }
     }
 
