@@ -9,6 +9,10 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 
+import java.util.HashSet;
+import java.util.Random;
+import java.util.Set;
+
 
 /**
  * Controller for the sudoku.fxml
@@ -189,9 +193,34 @@ public class SudokuController {
         }
     }
 
+    @FXML
+    void onActionHelpButton(ActionEvent event) {
 
-    public void readSudokuTable(Board board) {
+        int[][] positions = new int[0][2];
+        int[][] boardEmpty = board.getBoard();
+        int counter = 0;
+        for (int filas = 0; filas < boardEmpty.length; filas++) {
+            for (int columnas = 0; columnas < boardEmpty[filas].length; columnas++) {
+                if (boardEmpty[filas][columnas] == 0){
+                    positions[counter][1] = filas;
+                    positions[counter][2] = columnas;
+                    counter++;
+                }
+            }
+        }
 
+        Random rand  = new Random();
+        int positionHelpChooser = rand.nextInt(positions.length);
+        if (positions.length != 1){
+            int row = positions[positionHelpChooser][0];
+            int column = positions[positionHelpChooser][1];
+            int helpNumber = solver.getBoardValue(row, column);
+            board.setBoardValue(row, column, helpNumber);
+        }
+    }
+
+
+    public void updateBoardTable(Board board) {
 
     }
 
