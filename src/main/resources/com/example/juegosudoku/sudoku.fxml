@@ -3,6 +3,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -17,7 +18,7 @@
          <children>
             <VBox alignment="CENTER" prefHeight="102.0" prefWidth="118.0" style="-fx-background-color: #EDEDED; -fx-border-width: 4px; visibility: true; -fx-border-color: #A0A0A0;">
                <children>
-                  <Button alignment="TOP_CENTER" contentDisplay="RIGHT" mnemonicParsing="false" style="-fx-background-color: #ADD8E6; -fx-background-radius: 15px; -fx-border-color: black; -fx-border-radius: 50%; -fx-border-width: 3px;" text="?">
+                  <Button alignment="TOP_CENTER" contentDisplay="RIGHT" mnemonicParsing="false" onAction="#onActionHelpButton" style="-fx-background-color: #ADD8E6; -fx-background-radius: 15px; -fx-border-color: black; -fx-border-radius: 50%; -fx-border-width: 3px;" text="?">
                      <font>
                         <Font name="Arial Black" size="18.0" />
                      </font>
@@ -55,6 +56,11 @@
                   </Label>
                </children>
             </HBox>
+            <AnchorPane prefHeight="73.0" prefWidth="90.0" style="-fx-background-color: #EDEDED; -fx-border-width: 4; visibility: true; -fx-border-color: #A0A0A0;">
+               <children>
+                  <Button fx:id="playAgainButton" layoutX="10.0" layoutY="21.0" mnemonicParsing="false" onAction="#onActionPlayAgainButton" text="Volver a jugar" />
+               </children>
+            </AnchorPane>
          </children>
       </HBox>
    </top>

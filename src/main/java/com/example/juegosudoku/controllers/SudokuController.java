@@ -1,7 +1,8 @@
 package com.example.juegosudoku.controllers;
 
-import com.example.juegosudoku.models.Jugador;
-import com.example.juegosudoku.models.ReglasSudoku;
+ jdvm
+import com.example.juegosudoku.models.*;
+ Dev-Vera
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -10,8 +11,12 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 
+ jdvm
 import java.util.HashMap;
 import java.util.Map;
+
+import java.util.*;
+ Dev-Vera
 
 
 /**
@@ -55,6 +60,8 @@ public class SudokuController {
 
     ReglasSudoku reglas = new ReglasSudoku(); //Instancio la clase para poder usarla aqui
 
+    Board board = new Board();
+    BoardSolver solver = new BoardSolver();
 
     /**
      * This metod runs when the interface open and shows a image
@@ -67,9 +74,13 @@ public class SudokuController {
         String imagePath = getClass().getResource("/com/example/juegosudoku/Imagenes/imagenInicio.jpg").toExternalForm();
         borderPane.setStyle("-fx-background-image: url('" + imagePath + "'); -fx-background-size: cover;");
 
+        generateSudokuTable(board, solver);
+
         for (int filas = 0; filas < SizeSudoku; filas++) { //Este for recorre todas las filas
+ jdvm
             for (int columnas = 0; columnas < SizeSudoku; columnas++) { //Este ford recorre las columnas, primero recorre todas las columnas
                 //de una fila y luego pasa a la siguiente fila
+ Dev-Vera
                 TextField celda = new TextField(); //Cada que pasa por aqui crea una celda
                 celda.setPrefSize(SizeCeldas, SizeCeldas); //Le da tamaño a la celda 50px x 50px
 
@@ -197,6 +208,16 @@ public class SudokuController {
                 //por aqui la primera vez añade un TextField en 0, 0
             }
         }
+
+//        for (int filas = 0; filas < SizeSudoku; filas++){
+//            for (int columnas = 0; columnas < SizeSudoku; columnas++){
+//                int valorInicial = board.getBoardValue(filas, columnas);
+//                if(valorInicial != 0){
+//                    celda.setText(String.valueOf(valorInicial));
+//                    celda.setDisable(true);
+//                }
+//            }
+//        }
     }
 
     /**
@@ -239,7 +260,11 @@ public class SudokuController {
         nombreLabel.setText(jugador.getNombre());
     }
 
+    @FXML
+    void onActionPlayAgainButton(ActionEvent event) {
+        RetryAlert alert = new RetryAlert();
 
+ jdvm
     /**
      private void pintarCelda(int filas, int columnas){
 
@@ -293,5 +318,81 @@ public class SudokuController {
 
 
 
+ Dev-Vera
+
+    @FXML
+    void onActionHelpButton(ActionEvent event) {
+
+        List<int[]> positions = new ArrayList<>();
+        int[][] boardEmpty = board.getBoard();
+        for (int filas = 0; filas < boardEmpty.length; filas++) {
+            for (int columnas = 0; columnas < boardEmpty[filas].length; columnas++) {
+                if (boardEmpty[filas][columnas] == 0){
+                    positions.add(new int[]{filas, columnas});
+                }
+            }
+        }
+
+        if (!positions.isEmpty())
+        {
+            Random rand = new Random();
+            int positionHelpChooser[] = positions.get(rand.nextInt(positions.size()));
+            int row = positionHelpChooser[0];
+            int column = positionHelpChooser[1];
+
+            int helpNumber = solver.getBoardValue(row, column);
+            board.setBoardValue(row, column, helpNumber);
+
+            celdas[row][column].setText(String.valueOf(helpNumber));
+            celdas[row][column].setStyle("-fx-text-fill: #00008B;");
+        }
+    }
+
+
+    public void updateBoardTable(Board board) {
+        for(int row = 0; row <SizeSudoku; row++){
+            for(int column = 0; column < SizeSudoku; column++){
+                int value = board.getBoardValue(row, column);
+                TextField celda = celdas[row][column];
+
+                if (value != 0){
+                    celda.setText(String.valueOf(value));
+                    celda.setDisable(true);
+                }
+                else{
+                    celda.setText("");
+                    celda.setDisable(false);
+                    celda.setStyle("-fx-text-fill: black;");
+                }
+            }
+        }
+    }
+
+
+    /**
+     * Function to generate and check the suitability of a board for the game
+     * @param board: board to play on
+     * @param solver: board solved to check its suitability
+     */
+    public void generateSudokuTable(Board board, BoardSolver solver){
+        board.generateNumberPerSection();
+        solver.cloneBoard(board.getBoard());
+//        board.printBoard();
+//        System.out.println();
+        if(solver.isInitialBoardValid()){
+            if (solver.solve()) {
+//                solver.printBoard();
+//                System.out.println();
+//                board.printBoard();
+//                System.out.println();
+                System.out.println("Solved");
+            } else {
+                generateSudokuTable(board, solver);
+            }
+        }
+        else{
+            generateSudokuTable(board, solver);
+        }
+    }
 
 }
