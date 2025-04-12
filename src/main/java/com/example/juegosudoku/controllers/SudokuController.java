@@ -1,6 +1,8 @@
 package com.example.juegosudoku.controllers;
 
+ jdvm
 import com.example.juegosudoku.models.*;
+ Dev-Vera
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -9,7 +11,12 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 
+ jdvm
+import java.util.HashMap;
+import java.util.Map;
+
 import java.util.*;
+ Dev-Vera
 
 
 /**
@@ -23,6 +30,8 @@ import java.util.*;
  * @version 1.0
  */
 public class SudokuController {
+
+    private Map<TextField, String> estilosOriginales = new HashMap<>(); //----------------------------------------------
 
     private static final int SizeSudoku = 6; //Aqui defino el tamaño del sudoku 6x6
     private static final int SizeCeldas = 50; //Tamaño de las celdas 50px x 50px
@@ -58,7 +67,7 @@ public class SudokuController {
      * This metod runs when the interface open and shows a image
      * There are two nested(anidados) for, they go through(a traves de) the matrix, both(tanto) its columns and rows
      * Created a TextField in each(cada) cell and a style is applied according(segun) the case
-     *
+     *The setOnMouseEntered and setOnMouseExited events are used to highlight the cells where the cursor is hovering
      */
     public void initialize(){
 
@@ -68,10 +77,77 @@ public class SudokuController {
         generateSudokuTable(board, solver);
 
         for (int filas = 0; filas < SizeSudoku; filas++) { //Este for recorre todas las filas
-            for (int columnas = 0; columnas < SizeSudoku; columnas++) { //Este for recorre las columnas, primero recorre todas las columnas
-                                                                        //de una fila y luego pasa a la siguiente fila
+ jdvm
+            for (int columnas = 0; columnas < SizeSudoku; columnas++) { //Este ford recorre las columnas, primero recorre todas las columnas
+                //de una fila y luego pasa a la siguiente fila
+ Dev-Vera
                 TextField celda = new TextField(); //Cada que pasa por aqui crea una celda
                 celda.setPrefSize(SizeCeldas, SizeCeldas); //Le da tamaño a la celda 50px x 50px
+
+
+                final int filaActual2 = filas;
+                final int columnaActual2 = columnas;
+
+                celda.setStyle(estiloCelda(filaActual2, columnaActual2));
+                String estilo = estiloCelda(filas, columnas);
+                celda.setStyle(estilo);
+                estilosOriginales.put(celda, estilo); //Esto lo que hace es guardar el estilo original
+
+                celda.setOnMouseEntered(e -> {
+                    celda.setStyle(estilosOriginales.get(celda) + " -fx-background-color: lightblue;");
+
+                    //Celda de arriba
+                    if (filaActual2 - 1 >= 0){
+                        TextField arriba = celdas[filaActual2 - 1][columnaActual2];
+                        arriba.setStyle(estilosOriginales.get(arriba) + " -fx-background-color: lightgray;");
+                    }
+
+                    //Celda de abajo
+                    if(filaActual2 + 1 < celdas.length){
+                        TextField abajo = celdas[filaActual2 + 1][columnaActual2];
+                        abajo.setStyle(estilosOriginales.get(abajo) + " -fx-background-color: lightgray;");
+                    }
+
+                    //Celda de la derecha
+                    if(columnaActual2 + 1 < celdas[filaActual2].length){
+                        TextField derecha = celdas[filaActual2][columnaActual2 + 1];
+                        derecha.setStyle(estilosOriginales.get(derecha) + " -fx-background-color: lightgray;");
+                    }
+
+                    //Celda de la izquierda
+                    if(columnaActual2 - 1 >= 0){
+                        TextField izquierda = celdas[filaActual2][columnaActual2 -1];
+                        izquierda.setStyle(estilosOriginales.get(izquierda) + " -fx-background-color: lightgray;");
+                    }
+                });
+
+                celda.setOnMouseExited(e -> {
+                    celda.setStyle(estiloCelda(filaActual2, columnaActual2));
+
+                    //Restaurar la celda de arriba
+                    if (filaActual2 -1 >= 0){
+                        TextField arriba = celdas[filaActual2 - 1][columnaActual2];
+                        arriba.setStyle(estilosOriginales.get(arriba));
+                    }
+
+                    //Restaurar la celda de abajo
+                    if(filaActual2 + 1 < celdas.length){
+                        TextField abajo = celdas[filaActual2 + 1][columnaActual2];
+                        abajo.setStyle(estilosOriginales.get(abajo));
+                    }
+
+                    //Restaurar la celda de la derecha
+                    if(columnaActual2 + 1 < celdas[filaActual2].length){
+                        TextField derecha = celdas[filaActual2][columnaActual2 + 1];
+                        derecha.setStyle(estilosOriginales.get(derecha));
+                    }
+
+                    //Restaurar la celda de la izquierda
+                    if(columnaActual2 - 1 >= 0){
+                        TextField izquierda = celdas[filaActual2][columnaActual2 - 1];
+                        izquierda.setStyle(estilosOriginales.get(izquierda));
+                    }
+                });
 
                 //------------------------------------------------------------------------------------------------------
                 //Solo permite ingresar numero del 1 al 6 de lo contrario los borra automaticamente,
@@ -101,31 +177,35 @@ public class SudokuController {
                 });
                 //------------------------------------------------------------------------------------------------------
 
-                String borderWidth = "1px"; // Borde base, por defecto todos tendran un tamaño de 1 px sino se cumplen unas condiciones
+                /**
+                 String borderWidth = "1px"; // Borde base, por defecto todos tendran un tamaño de 1 px sino se cumplen unas condiciones
 
-                if ((columnas + 1) % 3 == 0 && columnas != SizeSudoku - 1) {
-                    borderWidth = "1px 3px 1px 1px"; // Aumenta borde de la derecha cada 3 columnas y omite el ultimo borde derecho,
-                                                     // columnas !=5 debido a que se integra en una matriz
-                }
+                 if ((columnas + 1) % 3 == 0 && columnas != SizeSudoku - 1) {
+                 borderWidth = "1px 3px 1px 1px"; // Aumenta borde de la derecha cada 3 columnas y omite el ultimo borde derecho,
+                 // columnas !=5 debido a que se integra en una matriz
+                 }
 
-                if ((filas + 1) % 2 == 0 && filas != SizeSudoku - 1) {
-                    borderWidth = "1px 1px 3px 1px"; // Aumenta borde inferior cada 2 filas
-                    if ((filas + 1) % 2 == 0 && filas != SizeSudoku - 1 && columnas == 2){
-                        borderWidth = "1px 3px 3px 1px"; //aumenta el borde inferior y el de la derecha, esto se hace para especificar que
-                                                         // puede existir el caso de arriba donde el borde de la derecha no se debe de modificar y otros casos como este donde si se debe modificar
-                    }
-                } else if(filas == 6){
-                    borderWidth = "1px 3px 1px 1px"; //Existe este otro caso cuando la fila es igual a la ultima fila solo se debe de modificar
-                                                     //el borde derecho y no el de abajo
-                }
+                 if ((filas + 1) % 2 == 0 && filas != SizeSudoku - 1) {
+                 borderWidth = "1px 1px 3px 1px"; // Aumenta borde inferior cada 2 filas
+                 if ((filas + 1) % 2 == 0 && filas != SizeSudoku - 1 && columnas == 2){
+                 borderWidth = "1px 3px 3px 1px"; //aumenta el borde inferior y el de la derecha, esto se hace para especificar que
+                 // puede existir el caso de arriba donde el borde de la derecha no se debe de modificar y otros casos como este donde si se debe modificar
+                 }
+                 } else if(filas == 6){
+                 borderWidth = "1px 3px 1px 1px"; //Existe este otro caso cuando la fila es igual a la ultima fila solo se debe de modificar
+                 //el borde derecho y no el de abajo
+                 }
 
-                celda.setStyle("-fx-font-size: 18px; -fx-alignment: center; -fx-border-color: black; " +
-                        "-fx-border-width: " + borderWidth + "; -fx-text-fill: black; -fx-background-color: white;");//Se aplica el estilo de las celdas
+                 celda.setStyle("-fx-font-size: 18px; -fx-alignment: center; -fx-border-color: black; " +
+                 "-fx-border-width: " + borderWidth + "; -fx-text-fill: black; -fx-background-color: white;");//Se aplica el estilo de las celdas
+
+                 **/
+
 
                 celdas[filas][columnas] = celda; //Se guardan en la matriz
                 celdasSudoku.add(celda, columnas, filas); //Metodo predifinido del GridPane donde añadimos la celda que es un
-                                                          //TextField por cada cuadro, añadimos la columna y la fina, cuando pase
-                                                          //por aqui la primera vez añade un TextField en 0, 0
+                //TextField por cada cuadro, añadimos la columna y la fina, cuando pase
+                //por aqui la primera vez añade un TextField en 0, 0
             }
         }
 
@@ -184,12 +264,61 @@ public class SudokuController {
     void onActionPlayAgainButton(ActionEvent event) {
         RetryAlert alert = new RetryAlert();
 
-        boolean confirmation = alert.mostrarAlertaDeConfirmacion("Alerta de reiniciar juego", "Esta es una ventana de alerta", "Deseas iniciar otro tablero?");
-        if (confirmation){
-            generateSudokuTable(board, solver);
-            updateBoardTable(board);
+ jdvm
+    /**
+     private void pintarCelda(int filas, int columnas){
+
+     //Aqui se pinta la selda en la que esta parado el usuario
+     aplicarFondo(celdas[filas][columnas], filas, columnas, "lightblue");
+
+     //Pintar arriba
+     if (filas - 1 >= 0){
+     aplicarFondo(celdas[filas - 1][columnas], filas - 1, columnas, "ligthgray");
+     }
+     }
+
+
+     //Este metodo mantiene el estilo original de la celda y solo cambia el fondo
+     private void aplicarFondo(TextField celda, int filas, int columnas, String color){
+     String estiloOriginal = estiloCelda(filas, columnas);
+     celda.setStyle(estiloOriginal + " -fx-background-color: " + color + ";");
+     }
+     **/
+
+
+    /**
+     *This method contains the base style of the cells, According to the condition, the cell borders
+     * are styled this way
+     * @param filas
+     * @param columnas
+     * @return
+     */
+    public String estiloCelda(int filas, int columnas){
+        String borderWidth = "1px"; // Borde base, por defecto todos tendran un tamaño de 1 px sino se cumplen unas condiciones
+
+        if ((columnas + 1) % 3 == 0 && columnas != SizeSudoku - 1) {
+            borderWidth = "1px 3px 1px 1px"; // Aumenta borde de la derecha cada 3 columnas y omite el ultimo borde derecho,
+            // columnas !=5 debido a que se integra en una matriz
         }
+
+        if ((filas + 1) % 2 == 0 && filas != SizeSudoku - 1) {
+            borderWidth = "1px 1px 3px 1px"; // Aumenta borde inferior cada 2 filas
+            if ((filas + 1) % 2 == 0 && filas != SizeSudoku - 1 && columnas == 2){
+                borderWidth = "1px 3px 3px 1px"; //aumenta el borde inferior y el de la derecha, esto se hace para especificar que
+                // puede existir el caso de arriba donde el borde de la derecha no se debe de modificar y otros casos como este donde si se debe modificar
+            }
+        } else if(filas == 6){
+            borderWidth = "1px 3px 1px 1px"; //Existe este otro caso cuando la fila es igual a la ultima fila solo se debe de modificar
+            //el borde derecho y no el de abajo
+        }
+
+        return "-fx-font-size: 18px; -fx-alignment: center; -fx-border-color: black; " +
+                "-fx-border-width: " + borderWidth + "; -fx-text-fill: black; -fx-background-color: white;";
     }
+
+
+
+ Dev-Vera
 
     @FXML
     void onActionHelpButton(ActionEvent event) {
