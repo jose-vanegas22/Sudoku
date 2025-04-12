@@ -1,8 +1,6 @@
 package com.example.juegosudoku.controllers;
 
- jdvm
 import com.example.juegosudoku.models.*;
- Dev-Vera
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -11,12 +9,12 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 
- jdvm
+
 import java.util.HashMap;
 import java.util.Map;
 
 import java.util.*;
- Dev-Vera
+
 
 
 /**
@@ -77,10 +75,10 @@ public class SudokuController {
         generateSudokuTable(board, solver);
 
         for (int filas = 0; filas < SizeSudoku; filas++) { //Este for recorre todas las filas
- jdvm
+
             for (int columnas = 0; columnas < SizeSudoku; columnas++) { //Este ford recorre las columnas, primero recorre todas las columnas
                 //de una fila y luego pasa a la siguiente fila
- Dev-Vera
+
                 TextField celda = new TextField(); //Cada que pasa por aqui crea una celda
                 celda.setPrefSize(SizeCeldas, SizeCeldas); //Le da tamaño a la celda 50px x 50px
 
@@ -177,29 +175,6 @@ public class SudokuController {
                 });
                 //------------------------------------------------------------------------------------------------------
 
-                /**
-                 String borderWidth = "1px"; // Borde base, por defecto todos tendran un tamaño de 1 px sino se cumplen unas condiciones
-
-                 if ((columnas + 1) % 3 == 0 && columnas != SizeSudoku - 1) {
-                 borderWidth = "1px 3px 1px 1px"; // Aumenta borde de la derecha cada 3 columnas y omite el ultimo borde derecho,
-                 // columnas !=5 debido a que se integra en una matriz
-                 }
-
-                 if ((filas + 1) % 2 == 0 && filas != SizeSudoku - 1) {
-                 borderWidth = "1px 1px 3px 1px"; // Aumenta borde inferior cada 2 filas
-                 if ((filas + 1) % 2 == 0 && filas != SizeSudoku - 1 && columnas == 2){
-                 borderWidth = "1px 3px 3px 1px"; //aumenta el borde inferior y el de la derecha, esto se hace para especificar que
-                 // puede existir el caso de arriba donde el borde de la derecha no se debe de modificar y otros casos como este donde si se debe modificar
-                 }
-                 } else if(filas == 6){
-                 borderWidth = "1px 3px 1px 1px"; //Existe este otro caso cuando la fila es igual a la ultima fila solo se debe de modificar
-                 //el borde derecho y no el de abajo
-                 }
-
-                 celda.setStyle("-fx-font-size: 18px; -fx-alignment: center; -fx-border-color: black; " +
-                 "-fx-border-width: " + borderWidth + "; -fx-text-fill: black; -fx-background-color: white;");//Se aplica el estilo de las celdas
-
-                 **/
 
 
                 celdas[filas][columnas] = celda; //Se guardan en la matriz
@@ -208,6 +183,8 @@ public class SudokuController {
                 //por aqui la primera vez añade un TextField en 0, 0
             }
         }
+
+        updateBoardTable(board);
 
 //        for (int filas = 0; filas < SizeSudoku; filas++){
 //            for (int columnas = 0; columnas < SizeSudoku; columnas++){
@@ -264,26 +241,12 @@ public class SudokuController {
     void onActionPlayAgainButton(ActionEvent event) {
         RetryAlert alert = new RetryAlert();
 
- jdvm
-    /**
-     private void pintarCelda(int filas, int columnas){
-
-     //Aqui se pinta la selda en la que esta parado el usuario
-     aplicarFondo(celdas[filas][columnas], filas, columnas, "lightblue");
-
-     //Pintar arriba
-     if (filas - 1 >= 0){
-     aplicarFondo(celdas[filas - 1][columnas], filas - 1, columnas, "ligthgray");
-     }
-     }
-
-
-     //Este metodo mantiene el estilo original de la celda y solo cambia el fondo
-     private void aplicarFondo(TextField celda, int filas, int columnas, String color){
-     String estiloOriginal = estiloCelda(filas, columnas);
-     celda.setStyle(estiloOriginal + " -fx-background-color: " + color + ";");
-     }
-     **/
+        boolean confirmation = alert.mostrarAlertaDeConfirmacion("Alerta de reiniciar juego", "Esta es una ventana de alerta", "Deseas iniciar otro tablero?");
+        if (confirmation){
+            generateSudokuTable(board, solver);
+            updateBoardTable(board);
+        }
+    }
 
 
     /**
@@ -318,22 +281,24 @@ public class SudokuController {
 
 
 
- Dev-Vera
+
 
     @FXML
     void onActionHelpButton(ActionEvent event) {
 
         List<int[]> positions = new ArrayList<>();
         int[][] boardEmpty = board.getBoard();
+        int counter = 0;
         for (int filas = 0; filas < boardEmpty.length; filas++) {
             for (int columnas = 0; columnas < boardEmpty[filas].length; columnas++) {
                 if (boardEmpty[filas][columnas] == 0){
                     positions.add(new int[]{filas, columnas});
+                    counter++;
                 }
             }
         }
 
-        if (!positions.isEmpty())
+        if (counter > 1)
         {
             Random rand = new Random();
             int positionHelpChooser[] = positions.get(rand.nextInt(positions.size()));
@@ -343,8 +308,9 @@ public class SudokuController {
             int helpNumber = solver.getBoardValue(row, column);
             board.setBoardValue(row, column, helpNumber);
 
+            celdas[row][column].setStyle(estiloCelda(row, column));
+            celdas[row][column].setStyle("-fx-text-fill: #00008B");
             celdas[row][column].setText(String.valueOf(helpNumber));
-            celdas[row][column].setStyle("-fx-text-fill: #00008B;");
         }
     }
 
@@ -357,12 +323,13 @@ public class SudokuController {
 
                 if (value != 0){
                     celda.setText(String.valueOf(value));
-                    celda.setDisable(true);
+
                 }
                 else{
+
                     celda.setText("");
                     celda.setDisable(false);
-                    celda.setStyle("-fx-text-fill: black;");
+
                 }
             }
         }
