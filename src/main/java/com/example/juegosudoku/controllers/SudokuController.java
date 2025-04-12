@@ -187,7 +187,7 @@ public class SudokuController {
         boolean confirmation = alert.mostrarAlertaDeConfirmacion("Alerta de reiniciar juego", "Esta es una ventana de alerta", "Deseas iniciar otro tablero?");
         if (confirmation){
             generateSudokuTable(board, solver);
-
+            updateBoardTable(board);
         }
     }
 
@@ -221,7 +221,22 @@ public class SudokuController {
 
 
     public void updateBoardTable(Board board) {
+        for(int row = 0; row <SizeSudoku; row++){
+            for(int column = 0; column < SizeSudoku; column++){
+                int value = board.getBoardValue(row, column);
+                TextField celda = celdas[row][column];
 
+                if (value != 0){
+                    celda.setText(String.valueOf(value));
+                    celda.setDisable(true);
+                }
+                else{
+                    celda.setText("");
+                    celda.setDisable(false);
+                    celda.setStyle("-fx-text-fill: black;");
+                }
+            }
+        }
     }
 
 
