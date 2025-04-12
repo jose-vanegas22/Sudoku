@@ -75,5 +75,31 @@ public class Board {
         board[row][column] = value;
     }
 
+    public int numerosCincos(){
+        int cont = 0;
+
+        for (int i = 0; i < boardLength; i++) {
+            for (int j = 0; j < boardWidth; j++) {
+                if (board[i][j] == 5){
+                    cont++;
+                }
+            }
+        }
+        return cont;
+    }
+
+    public int numerosTres(){
+        int cont = 6;
+
+        for (int i = 0; i < boardLength; i++) {
+            for (int j = 0; j < boardWidth; j++) {
+                if (board[i][j] == 3){
+                    cont--;
+                }
+            }
+        }
+        return cont;
+    }
+
 
 }

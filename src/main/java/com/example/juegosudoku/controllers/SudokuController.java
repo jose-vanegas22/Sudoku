@@ -29,6 +29,13 @@ import java.util.*;
  */
 public class SudokuController {
 
+    @FXML
+    private Label label3;
+
+    @FXML
+    private Label label5;
+
+
     private Map<TextField, String> estilosOriginales = new HashMap<>(); //----------------------------------------------
 
     private static final int SizeSudoku = 6; //Aqui defino el tamaño del sudoku 6x6
@@ -81,6 +88,8 @@ public class SudokuController {
 
                 TextField celda = new TextField(); //Cada que pasa por aqui crea una celda
                 celda.setPrefSize(SizeCeldas, SizeCeldas); //Le da tamaño a la celda 50px x 50px
+
+
 
 
                 final int filaActual2 = filas;
@@ -163,6 +172,10 @@ public class SudokuController {
                         int filaActual = GridPane.getRowIndex(celda); //Guarda el indice de la fila en donde el usuario quiere colocar el numero, en donde señana y da click con el raton
                         int columnaActual = GridPane.getColumnIndex(celda); //Guarda el indice de la columna en donde el usuario quiere color el numero, en donde señala y da click con el raton
                         int numero = Integer.parseInt(newValue); //Convierte ese nuevo valor ingresado de String a int y lo guada en la variable numero
+
+                        board.setBoardValue(filaActual, columnaActual, numero);
+                        numeros5();
+                        numeros3();
 
                         if (!reglas.numeroValido(sudoku, filaActual, columnaActual, numero)) { //Si no se cumplen las condiciones de numeroValido muestra unos mensajes
                             mensajeValorLabel.setText("Valor");
@@ -364,6 +377,16 @@ public class SudokuController {
         else{
             generateSudokuTable(board, solver);
         }
+    }
+
+
+
+    public void numeros5(){
+        label5.setText("Cantidad 5: " + board.numerosCincos());
+    }
+
+    public void numeros3(){
+        label3.setText("Cantidad 3: " + board.numerosTres());
     }
 
 }
