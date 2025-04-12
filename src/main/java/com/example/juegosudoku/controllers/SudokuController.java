@@ -54,6 +54,12 @@ public class SudokuController {
     @FXML
     private Button playAgainButton;
 
+    @FXML
+    private Label number3Left;
+
+    @FXML
+    private Label current5Qty;
+
     private Jugador jugador; //Se crea una instancia de la clase Jugador para poder usar el nombre
 
     ReglasSudoku reglas = new ReglasSudoku(); //Instancio la clase para poder usarla aqui
@@ -163,6 +169,8 @@ public class SudokuController {
                         int filaActual = GridPane.getRowIndex(celda); //Guarda el indice de la fila en donde el usuario quiere colocar el numero, en donde señana y da click con el raton
                         int columnaActual = GridPane.getColumnIndex(celda); //Guarda el indice de la columna en donde el usuario quiere color el numero, en donde señala y da click con el raton
                         int numero = Integer.parseInt(newValue); //Convierte ese nuevo valor ingresado de String a int y lo guada en la variable numero
+                        board.setBoardValue(filaActual, columnaActual, numero);
+
 
                         if (!reglas.numeroValido(sudoku, filaActual, columnaActual, numero)) { //Si no se cumplen las condiciones de numeroValido muestra unos mensajes
                             mensajeValorLabel.setText("Valor");
@@ -170,6 +178,8 @@ public class SudokuController {
                         } else { //De lo contrario cuando si se cumplen borra los mensajes
                             mensajeValorLabel.setText(" ");
                             mensajeIncorrectoLabel.setText(" ");
+                            updateNum3Left();
+                            updateNum5Qty();
                         }
                     }
                 });
@@ -337,6 +347,8 @@ public class SudokuController {
                 }
             }
         }
+        updateNum5Qty();
+        updateNum3Left();
     }
 
 
@@ -364,6 +376,14 @@ public class SudokuController {
         else{
             generateSudokuTable(board, solver);
         }
+    }
+
+    public void updateNum3Left(){
+        number3Left.setText("No. 3 faltante:" + String.valueOf(board.numbers3Left()));
+    }
+
+    public void updateNum5Qty(){
+        current5Qty.setText("No. 5 actuales:" + String.valueOf(board.num5CurrentQty()));
     }
 
 }

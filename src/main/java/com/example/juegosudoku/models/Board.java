@@ -75,5 +75,34 @@ public class Board {
         board[row][column] = value;
     }
 
+    public int numbers3Left(){
+        int number3left = 0;
+        int counter = 0;
+        for (int row = 0; row < boardLength; row++){
+            for (int column = 0; column < boardWidth; column++){
+                if(board[row][column]==3){
+                    counter++;
+                    number3left = 6- counter;
+                }
+
+            }
+        }
+        System.out.print(number3left + "");
+        return number3left;
+    }
+
+    public int num5CurrentQty(){
+        int num5Qty = 0;
+        for (int row = 0; row < boardLength; row++){
+            for (int column = 0; column < boardWidth; column++){
+                if(board[row][column]==5){
+                    num5Qty++;
+                }
+
+            }
+        }
+        return num5Qty;
+    }
+
 
 }
