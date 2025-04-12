@@ -10,6 +10,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
 import java.io.IOException;
 
@@ -70,6 +71,7 @@ public class IniciarSudokuController {
             sudokuView.show();
             sudokuView.getController().setJugador(jugador); //Permite pasar el nombre del jugador ingresado en esta clase a SudokuController
             sudokuView.getController().mostrarNombreLabel(); //Llama a un metodo de SudokuController que permite mostrar el nombre en la otra interfaz
+            hideIniciarSudokuView();
         }else{
             errorNombreLabel.setText("Decidiste salir, no iniciar el juego!!!!");
         }
@@ -96,6 +98,11 @@ public class IniciarSudokuController {
         // Verificar la ruta de la imagen
         String imagePath = getClass().getResource("/com/example/juegosudoku/Imagenes/imagenInicio.jpg").toExternalForm();
         vBox.setStyle("-fx-background-image: url('" + imagePath + "'); -fx-background-size: cover;");
+    }
+
+    public void hideIniciarSudokuView(){
+        Stage stage = (Stage) vBox.getScene().getWindow();
+        stage.hide();
     }
 }
 
