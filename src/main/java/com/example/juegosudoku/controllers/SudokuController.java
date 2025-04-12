@@ -315,6 +315,10 @@ public class SudokuController {
     }
 
 
+    /**
+     * Function that updates the board for other new
+     * @param board: sudoku board
+     */
     public void updateBoardTable(Board board) {
         for(int row = 0; row <SizeSudoku; row++){
             for(int column = 0; column < SizeSudoku; column++){
